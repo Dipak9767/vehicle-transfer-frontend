@@ -3,28 +3,28 @@
 import AddButton from "@/components/addButton/AddButton";
 import { Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { fetchDrivers } from "./actions/driverActions";
+import { fetchVehicles } from "./actions/vehicleActions";
 import DataTable from "@/components/dataTable/DataTable";
-import AddDriverDialog from "./components/AddDriverDialog";
-import { driverTableColumns } from "./components/driverTableColumns"
+import AddVehicleDialog from "./components/AddVehicleDialog";
+import { vehiclesColumns } from "./components/vehiclesColumns"
 
 export default function Home() {
-    const [drivers, setDrivers] = useState([])
+    const [vehicles, setVehicles] = useState([])
     const [openDialog, setOpenDialog] = useState(false)
 
-    const getDrivers = async () => {
+    const getVehicles = async () => {
         try {
-            const response: any = await fetchDrivers()
+            const response: any = await fetchVehicles()
             if (response?.status) {
-                setDrivers(response?.data.data)
+                setVehicles(response?.data.data)
             }
         } catch (error) {
-            console.log(error)
+
         }
     }
 
     useEffect(() => {
-        getDrivers();
+        getVehicles();
     }, [])
 
     const handleClose = () => {
@@ -41,21 +41,21 @@ export default function Home() {
             position: 'relative',
             padding: 2
         }}>
-            <AddDriverDialog
+            <AddVehicleDialog
                 onClose={handleClose}
                 open={openDialog}
-                getDrivers={getDrivers}
+                getVehicles={getVehicles}
             />
             <AddButton onClick={() => setOpenDialog(true)} />
-            <Typography color={'black'} fontSize={30}>Drivers</Typography>
+            <Typography color={'black'} fontSize={30}>Vehicles</Typography>
             <Box sx={{
                 width: '100%',
                 height: '90vh',
                 padding: 2
             }}>
                 <DataTable
-                    rows={drivers}
-                    columns={driverTableColumns}
+                    rows={vehicles?.map((item: any, idx) => ({ ...item, id: idx + 1 }))}
+                    columns={vehiclesColumns}
                 />
 
             </Box>

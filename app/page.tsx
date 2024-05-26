@@ -51,12 +51,14 @@ export default function Home() {
           </Button>
           <Button
             variant="contained"
-            sx={commonStyles.buttonStyle}>
+            sx={commonStyles.buttonStyle}
+            onClick={()=>router.push(routes.VEHICLE)}>
             Vehicle
           </Button>
           <Button
             variant="contained"
-            sx={commonStyles.buttonStyle}>
+            sx={commonStyles.buttonStyle}
+            onClick={() => router.push(routes.TRANSFER)}>
             Transfer
           </Button>
         </Box>

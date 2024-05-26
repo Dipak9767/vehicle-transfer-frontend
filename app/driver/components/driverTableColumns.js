@@ -6,16 +6,16 @@ export const driverTableColumns = [
         field: 'name',
         headerName: 'Name',
         flex: 1,
-        renderCell: (params) => {
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flex: 4 }}>
+        renderCell: (params) => (
+            <Box sx={{ display: 'flex', alignItems: 'center', flex: 4,gap:2 }}>
                 <Box
                     sx={{
-                        flex: 1,
                         borderRadius: "50%",
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
                         overflow: 'hidden',
+                        gap:2
                     }}
                 >
                     {
@@ -47,13 +47,13 @@ export const driverTableColumns = [
                             </Box>
                     }
                 </Box>
-                <Box flex={3} >
+                <Box  >
                     <Typography colors={colors.customBlue} fontSize={14}>
                         {params.value}
                     </Typography>
                 </Box>
             </Box>
-        }
+        )
     },
     {
         field: 'phoneNumber',

@@ -10,26 +10,28 @@ import Button from '@mui/material/Button';
 import { Box, TextField } from '@mui/material';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from '@/firebase';
-import { createDriver } from '../actions/driverActions';
+import { createVehicle } from '../actions/vehicleActions';
+// import { createDriver } from '../actions/vehicleActions';
 
-interface AddDriverDialogProps {
+interface AddVehicleDialogProps {
     open: boolean;
     onClose: () => void;
-    getDrivers: () => void
+    getVehicles: () => void
 }
 
-const AddDriverDialog: React.FC<AddDriverDialogProps> = ({ open, onClose, getDrivers }) => {
-    const [driverData, setDriverData] = useState({
-        name: '',
-        phoneNumber: '',
-        profilePhoto: ''
+const AddVehicleDialog: React.FC<AddVehicleDialogProps> = ({ open, onClose, getVehicles }) => {
+    const [vehicleData, setVehicleData] = useState({
+        vehicleNumber: '',
+        vehicleType: '',
+        pucCertificate: '',
+        insuranceCertificate: ''
     })
     const [errorList, setErrorList] = useState([]) as any
 
     const handleChange = (event: any) => {
         const { name, value } = event?.target;
         if (name === 'phoneNumber' && value?.length > 10) return;
-        setDriverData(prev => ({ ...prev, [name]: value }))
+        setVehicleData(prev => ({ ...prev, [name]: value }))
     }
 
     const handleUpload = async (event: any) => {
@@ -49,7 +51,7 @@ const AddDriverDialog: React.FC<AddDriverDialogProps> = ({ open, onClose, getDri
             },
             async () => {
                 const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                setDriverData(prev => ({ ...prev, profilePhoto: downloadURL }))
+                setVehicleData(prev => ({ ...prev, [event?.target.name]: downloadURL }))
             }
         );
 
@@ -57,32 +59,41 @@ const AddDriverDialog: React.FC<AddDriverDialogProps> = ({ open, onClose, getDri
 
     const handleSubmit = async () => {
         setErrorList([])
-        if (!driverData?.name) {
-            setErrorList(['name'])
+        if (!vehicleData?.vehicleNumber) {
+            setErrorList(['vehicleNumber'])
             return
         }
-        if (!driverData?.phoneNumber) {
-            setErrorList(['phoneNumber'])
+        if (!vehicleData?.vehicleType) {
+            setErrorList(['vehicleType'])
+            return
+        }
+        if (!vehicleData?.insuranceCertificate) {
+            setErrorList(['insuranceCertificate'])
+            return
+        }
+        if (!vehicleData?.pucCertificate) {
+            setErrorList(['pucCertificate'])
             return
         }
 
         try {
-            const response: any = await createDriver(driverData)
+            const response: any = await createVehicle(vehicleData)
             if (response.status) {
                 console.log(response)
                 onClose()
-                getDrivers()
+                getVehicles()
             }
         } catch (error) {
-            console.log(error)
+
         }
     }
-
+    
     useEffect(() => {
-        setDriverData({
-            name: '',
-            phoneNumber: '',
-            profilePhoto: ''
+        setVehicleData({
+            vehicleNumber: '',
+            vehicleType: '',
+            pucCertificate: '',
+            insuranceCertificate: ''
         })
     }, [open])
 
@@ -98,29 +109,39 @@ const AddDriverDialog: React.FC<AddDriverDialogProps> = ({ open, onClose, getDri
                     padding: 2
                 }}>
                     <TextField
-                        label={"Name"}
-                        name='name'
-                        error={errorList.includes('name')}
-                        value={driverData?.name}
-                        helperText='Name is required'
+                        label={"vehicle Number"}
+                        name='vehicleNumber'
+                        error={errorList.includes('vehicleNumber')}
+                        value={vehicleData?.vehicleNumber}
+                        helperText='vehicleNumber is required'
                         onChange={handleChange}
-
+                        type='number'
                     />
                     <TextField
-                        type='number'
-                        label={"Phone Number"}
-                        name='phoneNumber'
-                        error={errorList.includes('phoneNumber')}
-                        helperText='Phone number is required'
-                        value={driverData?.phoneNumber}
+                        label={"vehicle Type"}
+                        name='vehicleType'
+                        error={errorList.includes('vehicleType')}
+                        helperText='vehicleType is required'
+                        value={vehicleData?.vehicleType}
                         onChange={handleChange}
 
                     />
                     <TextField
                         type='file'
-                        label={"Profile Photo"}
+                        label={"puc Certificate"}
                         InputLabelProps={{ shrink: true }}
-                        name='profilePhoto'
+                        error={errorList.includes('pucCertificate')}
+                        name='pucCertificate'
+                        helperText="puc Certificate is required"
+                        onChange={handleUpload}
+                    />
+                    <TextField
+                        type='file'
+                        helperText='insurance Certificate is required'
+                        label={"insurance Certificate"}
+                        InputLabelProps={{ shrink: true }}
+                        error={errorList.includes('insuranceCertificate')}
+                        name='insuranceCertificate'
                         onChange={handleUpload}
                     />
                 </Box>
@@ -137,4 +158,4 @@ const AddDriverDialog: React.FC<AddDriverDialogProps> = ({ open, onClose, getDri
     );
 };
 
-export default AddDriverDialog;
+export default AddVehicleDialog;

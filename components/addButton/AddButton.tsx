@@ -19,8 +19,8 @@ const AddButton: React.FC<AddButtonProps> = ({ onClick }) => {
         justifyContent: 'center',
         alignItems: 'center',
         position: 'absolute',
-        bottom: 20,
-        right: 20,
+        bottom: 70,
+        right: 40,
         zIndex: 100,
         cursor: 'pointer'
       }}>
