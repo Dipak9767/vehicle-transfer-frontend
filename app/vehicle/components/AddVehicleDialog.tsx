@@ -47,11 +47,12 @@ const AddVehicleDialog: React.FC<AddVehicleDialogProps> = ({ open, onClose, getV
                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             },
             error => {
-                console.error('Upload failed:', error);
+                alert(error);
             },
             async () => {
                 const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
                 setVehicleData(prev => ({ ...prev, [event?.target.name]: downloadURL }))
+                alert('File uploaded')
             }
         );
 
@@ -79,7 +80,7 @@ const AddVehicleDialog: React.FC<AddVehicleDialogProps> = ({ open, onClose, getV
         try {
             const response: any = await createVehicle(vehicleData)
             if (response.status) {
-                console.log(response)
+                alert(response?.data?.message)
                 onClose()
                 getVehicles()
             }
@@ -87,7 +88,7 @@ const AddVehicleDialog: React.FC<AddVehicleDialogProps> = ({ open, onClose, getV
 
         }
     }
-    
+
     useEffect(() => {
         setVehicleData({
             vehicleNumber: '',
@@ -115,7 +116,6 @@ const AddVehicleDialog: React.FC<AddVehicleDialogProps> = ({ open, onClose, getV
                         value={vehicleData?.vehicleNumber}
                         helperText='vehicleNumber is required'
                         onChange={handleChange}
-                        type='number'
                     />
                     <TextField
                         label={"vehicle Type"}

@@ -47,12 +47,12 @@ export default function Home() {
                 getVehicles={getVehicles}
             />
             <AddButton onClick={() => setOpenDialog(true)} />
-            <Typography color={'black'} fontSize={30}>Vehicles</Typography>
             <Box sx={{
                 width: '100%',
                 height: '90vh',
                 padding: 2
             }}>
+                <Typography color={'black'} fontSize={30}>Vehicles</Typography>
                 <DataTable
                     rows={vehicles?.map((item: any, idx) => ({ ...item, id: idx + 1 }))}
                     columns={vehiclesColumns}

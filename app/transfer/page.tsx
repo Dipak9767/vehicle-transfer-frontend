@@ -77,12 +77,12 @@ export default function Home() {
                 vehicle={vehicle}
             />
             <AddButton onClick={() => setOpenDialog(true)} />
-            <Typography color={'black'} fontSize={30}>transfer</Typography>
             <Box sx={{
                 width: '100%',
                 height: '90vh',
                 padding: 2
             }}>
+                <Typography color={'black'} fontSize={30} >Transfer history</Typography>
                 <DataTable
                     rows={transfer}
                     columns={transferColumns}

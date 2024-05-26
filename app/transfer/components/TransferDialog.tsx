@@ -48,6 +48,7 @@ const AddTransferDialog: React.FC<AddTransferDialogProps> = ({ open, onClose, ge
         try {
             const response: any = await createTransfer(transferData)
             if (response.status) {
+                alert(response?.data?.message)
                 onClose()
                 getTransfer()
             }

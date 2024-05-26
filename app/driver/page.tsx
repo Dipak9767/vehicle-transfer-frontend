@@ -47,12 +47,12 @@ export default function Home() {
                 getDrivers={getDrivers}
             />
             <AddButton onClick={() => setOpenDialog(true)} />
-            <Typography color={'black'} fontSize={30}>Drivers</Typography>
             <Box sx={{
                 width: '100%',
                 height: '90vh',
                 padding: 2
             }}>
+                <Typography color={'black'} fontSize={30}>Drivers</Typography>
                 <DataTable
                     rows={drivers}
                     columns={driverTableColumns}

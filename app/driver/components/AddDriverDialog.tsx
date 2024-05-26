@@ -45,11 +45,12 @@ const AddDriverDialog: React.FC<AddDriverDialogProps> = ({ open, onClose, getDri
                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             },
             error => {
-                console.error('Upload failed:', error);
+                alert(error);
             },
             async () => {
                 const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
                 setDriverData(prev => ({ ...prev, profilePhoto: downloadURL }))
+                alert("file uploaded")
             }
         );
 
@@ -69,7 +70,7 @@ const AddDriverDialog: React.FC<AddDriverDialogProps> = ({ open, onClose, getDri
         try {
             const response: any = await createDriver(driverData)
             if (response.status) {
-                console.log(response)
+                alert(response?.data?.message)
                 onClose()
                 getDrivers()
             }
